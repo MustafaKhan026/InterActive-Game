@@ -1,20 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import SelectFruitScreen from './components/SelectFruitScreen';
+import GameScreen        from './components/GameScreen';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [targetFruit, setTargetFruit] = useState(null);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  const handleConfirm = (fruit) => setTargetFruit(fruit);
+  const handleGameEnd = () => setTargetFruit(null); // go back to selection
+
+  if (!targetFruit) {
+    return <SelectFruitScreen onConfirm={handleConfirm} />;
+  }
+
+  return <GameScreen targetFruit={targetFruit} onGameEnd={handleGameEnd}  autoStart/>;
+}
